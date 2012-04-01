@@ -86,7 +86,7 @@ FLAGS_FALSE=1
 FLAGS_ERROR=2
 
 # reserved flag names
-FLAGS_RESERVED='ARGC ARGV ERROR FALSE TEXT HELP PARENT RESERVED TRUE VERSION'
+FLAGS_RESERVED='ARGC ARGV ERROR FALSE TEXT HELP HELP_HEAD HELP_TAIL PARENT RESERVED TRUE VERSION'
 
 _flags_debug() { echo "flags:DEBUG $@" >&2; }
 _flags_warn() { echo "flags:WARN $@" >&2; }
@@ -164,6 +164,8 @@ for __flags_const in ${__flags_constants}; do
     FLAGS_TEXT) continue ;;
     FLAGS_HELP) continue ;;
     FLAGS_PARENT) continue ;;
+    FLAGS_HELP_HEAD) continue ;;
+    FLAGS_HELP_TAIL) continue ;;
   esac
   # set flag readonly
   if [ -z "${ZSH_VERSION:-}" ]; then
@@ -902,7 +904,9 @@ flags_getoptIsStd()
 #   integer: success of operation (always returns true)
 flags_help()
 {
-  if [ -n "${FLAGS_HELP:-}" ]; then
+  if [ -n "${FLAGS_HELP_HEAD:-}" ]; then
+    echo "${FLAGS_HELP_HEAD}" >&2
+  elif [ -n "${FLAGS_HELP:-}" ]; then
     echo "${FLAGS_HELP}" >&2
   else
     echo "USAGE: ${FLAGS_PARENT:-$0} [flags] args" >&2
@@ -975,6 +979,9 @@ flags_help()
         fi
       fi
     done
+  fi
+  if [ -n "${FLAGS_HELP_TAIL:-}" ]; then
+    echo "${FLAGS_HELP_TAIL}" >&2
   fi
 
   unset flags_boolStr_ flags_default_ flags_defaultStr_ flags_emptyStr_ \
