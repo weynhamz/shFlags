@@ -86,7 +86,7 @@ FLAGS_FALSE=1
 FLAGS_ERROR=2
 
 # reserved flag names
-FLAGS_RESERVED='ARGC ARGV ERROR FALSE HELP PARENT RESERVED TRUE VERSION'
+FLAGS_RESERVED='ARGC ARGV ERROR FALSE TEXT HELP PARENT RESERVED TRUE VERSION'
 
 _flags_debug() { echo "flags:DEBUG $@" >&2; }
 _flags_warn() { echo "flags:WARN $@" >&2; }
@@ -161,6 +161,7 @@ __flags_constants=`set |awk -F= '/^FLAGS_/ || /^__FLAGS_/ {print $1}'`
 for __flags_const in ${__flags_constants}; do
   # skip certain flags
   case ${__flags_const} in
+    FLAGS_TEXT) continue ;;
     FLAGS_HELP) continue ;;
     FLAGS_PARENT) continue ;;
   esac
@@ -907,7 +908,11 @@ flags_help()
     echo "USAGE: ${FLAGS_PARENT:-$0} [flags] args" >&2
   fi
   if [ -n "${__flags_longNames}" ]; then
-    echo 'flags:' >&2
+    if [ -n "${FLAGS_TEXT:-}" ]; then
+      echo "${FLAGS_TEXT}" >&2
+    else
+      echo 'flags:' >&2
+    fi
     for flags_name_ in ${__flags_longNames}; do
       flags_flagStr_=''
       flags_boolStr_=''
