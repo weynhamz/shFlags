@@ -936,6 +936,8 @@ flags_help()
       if [ ${__FLAGS_GETOPT_VERS} -eq ${__FLAGS_GETOPT_VERS_ENH} ]; then
         [ "${flags_short_}" != "${__FLAGS_NULL}" ] \
             && flags_flagStr_="${flags_flagStr_},"
+        [ "${flags_short_}" == "${__FLAGS_NULL}" ] \
+            && flags_flagStr_="   "
         [ ${flags_type_} -eq ${__FLAGS_TYPE_BOOLEAN} ] \
             && flags_boolStr_='[no]'
         flags_flagStr_="${flags_flagStr_}--${flags_boolStr_}${flags_name_}"
