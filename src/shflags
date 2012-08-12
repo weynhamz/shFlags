@@ -912,6 +912,14 @@ flags_help()
     echo "USAGE: ${FLAGS_PARENT:-$0} [flags] args" >&2
   fi
   if [ -n "${__flags_longNames}" ]; then
+    flags_nameLenMax_=0
+    for flags_name_ in ${__flags_longNames}; do
+       flags_nameLen_=`expr "${flags_name_}" : '.*'`
+       [ ${flags_nameLen_} -gt ${flags_nameLenMax_} ] \
+         && flags_nameLenMax_=${flags_nameLen_}
+    done
+    flags_flagStrIndentLen_=`expr ${flags_nameLenMax_} + 15`
+    flags_flagStrIndent_=`printf "%${flags_flagStrIndentLen_}s"`
     if [ -n "${FLAGS_TEXT:-}" ]; then
       echo "${FLAGS_TEXT}" >&2
     else
@@ -942,6 +950,9 @@ flags_help()
             && flags_boolStr_='[no]'
         flags_flagStr_="${flags_flagStr_}--${flags_boolStr_}${flags_name_}"
       fi
+      flags_flagStrLen_=`expr "${flags_flagStr_}" : '.*'`
+      flags_helpStrIndentLen_=`expr ${flags_flagStrIndentLen_} - ${flags_flagStrLen_}`
+      flags_helpStrIndent_=`printf "%${flags_helpStrIndentLen_}s"`
 
       case ${flags_type_} in
         ${__FLAGS_TYPE_BOOLEAN})
@@ -957,18 +968,14 @@ flags_help()
       esac
       flags_defaultStr_="(default: ${flags_defaultStr_})"
 
-      flags_helpStr_="  ${flags_flagStr_}  ${flags_help_} ${flags_defaultStr_}"
+      flags_helpStr_="  ${flags_flagStr_}${flags_helpStrIndent_}${flags_help_} ${flags_defaultStr_}"
       flags_helpStrLen_=`expr "${flags_helpStr_}" : '.*'`
       flags_columns_=`_flags_columns`
       if [ ${flags_helpStrLen_} -lt ${flags_columns_} ]; then
         echo "${flags_helpStr_}" >&2
       else
-        echo "  ${flags_flagStr_}  ${flags_help_}" >&2
-        # note: the silliness with the x's is purely for ksh93 on Ubuntu 6.06
-        # because it doesn't like empty strings when used in this manner.
-        flags_emptyStr_="`echo \"x${flags_flagStr_}x\" \
-            |awk '{printf "%"length($0)-2"s", ""}'`"
-        flags_helpStr_="  ${flags_emptyStr_}  ${flags_defaultStr_}"
+        echo "  ${flags_flagStr_}${flags_helpStrIndent_}${flags_help_}" >&2
+        flags_helpStr_="  ${flags_flagStrIndent_}${flags_defaultStr_}"
         flags_helpStrLen_=`expr "${flags_helpStr_}" : '.*'`
         if [ ${__FLAGS_GETOPT_VERS} -eq ${__FLAGS_GETOPT_VERS_STD} \
             -o ${flags_helpStrLen_} -lt ${flags_columns_} ]; then
