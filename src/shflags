@@ -938,7 +938,7 @@ flags_help()
             && flags_flagStr_="${flags_flagStr_},"
         [ ${flags_type_} -eq ${__FLAGS_TYPE_BOOLEAN} ] \
             && flags_boolStr_='[no]'
-        flags_flagStr_="${flags_flagStr_}--${flags_boolStr_}${flags_name_}:"
+        flags_flagStr_="${flags_flagStr_}--${flags_boolStr_}${flags_name_}"
       fi
 
       case ${flags_type_} in
