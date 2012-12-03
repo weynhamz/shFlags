@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-
+#!/bin/sh
+#
 # Copyright 2008 Kate Ward. All Rights Reserved.
 # Released under the LGPL (GNU Lesser General Public License)
 #
@@ -21,4 +21,5 @@ DEFINE_string 'name' 'world' 'name to say hello to' 'n'
 # parse the command-line
 FLAGS "$@" || exit 1
 eval set -- "${FLAGS_ARGV}"
+
 echo "Hello, ${FLAGS_name}!"

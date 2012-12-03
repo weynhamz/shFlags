@@ -30,19 +30,19 @@ shFlags has been tested on the following shells
 port help
 ```
 
-* Install getopt using [Macports](http://www.macports.org/) 
+* Install getopt using [Macports](http://www.macports.org/)
 
 ```
 sudo port install getopt
 ```
 
-* Add macports to your path 
+* Add macports to your path
 
 ```
 echo "export PATH=/opt/local/bin:/opt/local/sbin:$PATH" >> ~/.profile
 ```
 
-* Update the shell 
+* Update the shell
 
 ```
 source ~/.profile
@@ -75,8 +75,8 @@ cp shflags/examples/*.sh ~/bin
 Getting started with shFlags is quite easy. We'll start with the proverbial "Hello, world" example `~/bin/hello_world.sh`.
 
 ```shell
-#!/usr/bin/env bash
-	
+#!/bin/sh
+
 # source shflags
 . /usr/lib/shflags
 
@@ -119,7 +119,7 @@ Here we have defined a 'string' flag called name, we gave it a default value of 
 * how to handle the long command-line option `--name Kate` (not supported on all systems)
 * how to describe the flag if `-h` (or `--help`) is given as an option
 * to accept and validate any input as a string value
-* to store any input (or the default value) in the `FLAGS_name` variable 
+* to store any input (or the default value) in the `FLAGS_name` variable
 
 Wow. That's a lot. Let's keep going.
 
@@ -141,19 +141,19 @@ echo "Hello, ${FLAGS_name}!"
 Now that we have accepted parsed all our flags, we can make use of the results. This snippet prints out Hello to the screen (`Hello, world!` in this case) as the `FLAGS_name` variable contained `world`.
 
 Let's give the script another go, this time passing `-n Kate` on the command-line.
-	
+
 	hello_world.sh -n Kate
-	
+
 _Output_
-	
+
 	Hello, Kate!
 
 This time around, the `FLAGS_name` variable was defined with the value `Kate` as we passed the `-n` flag, and `Hello, Kate!` was output. I bet you never thought accepting command-line arguments could be so easy!
 
 What about spaces in the flag value? Give it a try! (**Note: this requires the enhanced getopt referenced [above][Requirements]**)
-	
+
 	hello_world.sh --name 'Kate Ward'
-	
+
 _Output_
 
 	Hello, Kate Ward!
@@ -163,7 +163,7 @@ It works!
 What happens if you can't remember the command-line flags you have defined, and what to find that out? Try passing the `-h` flag (or `--help`).
 
 	hello_world.sh -h
-	
+
 _Output_
 
 	USAGE: hello_world.sh [flags] args
@@ -171,7 +171,7 @@ _Output_
 	  -h  show this help
 	  -n  name to say hello to
 
-There you have it. A list of all the command line options supported in a nice clean format. What could be easier? 
+There you have it. A list of all the command line options supported in a nice clean format. What could be easier?
 
 ### Usage
 
@@ -225,7 +225,7 @@ Unlike getopt, shFlags provides an automated means of generating help for the us
 The debug example `~/bin/debug_output.sh` sets up a debug flag that when specified will enable debug output to STDERR. If the flag is not specified (the default behavior), debug output is not enabled.
 
 ```shell
-#!/usr/bin/env bash
+#!/bin/sh
 
 # source shflags
 . /usr/lib/shflags
@@ -248,7 +248,7 @@ echo 'something interesting'
 The write date example `~/bin/write_date.sh` will try to write the current date to a filename given on the command-line. If the file already exists, the script will fail, but if a `-f` (or `--force`) flag is given, the existing file will be overwritten.
 
 ```shell
-#!/usr/bin/env bash
+#!/bin/sh
 
 # source shflags
 . /usr/lib/shflags
@@ -287,7 +287,7 @@ fi
 Let's try calling this without a filename.
 
 	write_date.sh
-	
+
 It fails (notice the custom usage definition line)
 
 	error: filename missing
