@@ -12,12 +12,12 @@
 # functionality in a script.
 #
 # Try running these:
-# $ ./debug_output.sh speak
-# $ ./debug_output.sh sing
-# $ ./debug_output.sh --debug sing
+# $ debug_output.sh speak
+# $ debug_output.sh sing
+# $ debug_output.sh --debug sing
 
 # source shflags
-. ../src/shflags
+. /usr/lib/shflags
 
 # define flags
 DEFINE_boolean 'debug' false 'enable debug mode' 'd'

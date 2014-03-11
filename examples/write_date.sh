@@ -16,17 +16,17 @@
 # - handling of non-flag type command-line arguments that follow the flags
 #
 # Try the following:
-# $ ./write_date.sh now.out
-# $ cat now.out
+# $ write_date.sh now.txt
+# $ cat now.txt
 #
-# $ ./write_date.sh now.out
-# $ cat now.out
+# $ write_date.sh now.txt
+# $ cat now.txt
 #
-# $ ./write_date.sh -f now.out
-# $ cat now.out
+# $ write_date.sh -f now.txt
+# $ cat now.txt
 
 # source shflags
-. ../src/shflags
+. /usr/lib/shflags
 
 # configure shflags
 DEFINE_boolean 'force' false 'force overwriting' 'f'
